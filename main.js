@@ -13,11 +13,10 @@ Individuate gli elementi di cui avete bisogno per realizzare il programma.
 Immaginate la logica come fosse uno snack: "Dati 2 array di numeri, indica quali e quanti numeri ci sono in comune tra i due array" */
 
 
-// funzione che genera 5 numeri (1-99)
+// funzione che genera 5 numeri diversi (1-99)
 let randNums = rand5NumGen1to99();
 
 console.log(randNums);
-
 
 /**
  * Generates 5 numbers from 1 to 99
@@ -28,7 +27,7 @@ function rand5NumGen1to99() {
 
     //first for-loop
     for (let i = 0; i < 5; i++) {
-        let num = Math.floor(Math.random() * 98) + 1
+        let num = Math.floor(Math.random() * 99) + 1
         console.log(num);
 
         if (checkNums.indexOf(num) == -1) {
@@ -38,20 +37,23 @@ function rand5NumGen1to99() {
     // the first for-loop is used to 
     /* add a random number only if it's not already present to avoid duplicates */
 
-    //if statement with for-loop
-    if (checkNums.length < 5) {
-        for (let i = 0; i < (5 - checkNums.length); i++) {
-            let num2 = Math.floor(Math.random() * 98) + 1
-            console.log(num2);
 
-            if (checkNums.indexOf(num2) == -1) {
-                checkNums.push(num2)
+    /* added a for loop because there was a tiny chance of error, now it's tinier, but not 0*/
+    for (let i = 0; i < 10; i++) {
+        //if statement with for-loop
+        if (checkNums.length < 5) {
+            for (let i = 0; i < (5 - checkNums.length); i++) {
+                let num2 = Math.floor(Math.random() * 99) + 1
+                console.log("Extra num generated is: " + num2);
+
+                if (checkNums.indexOf(num2) == -1) {
+                    checkNums.push(num2)
+                }
             }
+            // an if statement with a for-loop that is used to:
+            /* compensate the first for-loop that leaves the array lacking numbers if 2 were generated as equals */
         }
     }
-    // an if statement with a for-loop that is used to:
-    /* compensate the first for-loop that leaves the array lacking numbers if 2 were generated as equals */
-
     return checkNums
 }
 
@@ -73,8 +75,6 @@ function displayInPage(array) {
 
 // li faccio durare 30 secondi in pagina
 
-/* id="input_timeout"  id="display_timeout" */
-
 const page_display = document.getElementById("display_timeout")
 const user_inputs_display = document.getElementById("input_timeout")
 
@@ -83,8 +83,13 @@ function numsOff_inputOn() {
     user_inputs_display.style.display = 'block';
 }
 function numsOn_inputOff() {
-    page_display.style.display = 'inline';
+    page_display.style.display = 'block';
     user_inputs_display.style.display = 'none';
+}
+
+function numsOn_inputOn() {
+    page_display.style.display = 'block';
+    user_inputs_display.style.display = 'block';
 }
 
 numsOn_inputOff()
@@ -96,61 +101,61 @@ let display_timer = setTimeout(numsOff_inputOn, 3000);
 /* id="user_input" */
 
 const userInputs = document.getElementById("user_input")
+const submitDisplay = document.getElementById("button_here")
 
 displayInputs()
 
 function displayInputs() {
-    for (let i = 1; i <= 5; i++) {
-        userInputs.innerHTML += `<input type="text" name="input${i}" id="input${i}" class="Required">`
+    for (let i = 0; i < 5; i++) {
+        userInputs.innerHTML += `<input type="number" required>`
     }
-    userInputs.innerHTML += `<button id="submit_guess" type="submit" class="btn btn-primary"> Submit </button>`
+    userInputs.innerHTML += `<button id="submit_guess" type="submit" class="btn btn-dark my-2"> Submit </button>`
 }
 
 // verifico che siano uguali ai 5 generati
 
-let user_inputs = []
+let userNumsPick = []
+let correctNums = []
 
-const input1 = document.getElementById("input1")
-const input2 = document.getElementById("input2")
-const input3 = document.getElementById("input3")
-const input4 = document.getElementById("input4")
-const input5 = document.getElementById("input5")
+const singleInputs = userInputs.children
+const submitBtn = document.getElementById("submit_guess")
 
-/* pushInputs() */
 
-console.log(user_inputs);
 
-for (let i = 1; i <= 5; i++) {
-    user_inputs.push(input[i])
-}
-
-/* function pushInputs () {
-    for (let i = 1; i <= 5; i++) {
-        user_inputs.push(input[i].value)
+function pushValues() {
+    for (let i = 0; i < 5; i++) {
+        userNumsPick.push(Number(singleInputs[i].value))
+        console.log(singleInputs[i].value);
     }
-} */
-
-
-
-
-
-// BONUS verifica da segnalare visivamente
-
-
-
-
-
-//FOR EXTRA ITERATIONS
-
-/* let randNums_bis;
-function rand5NumGen1to99_bis() {
-    randNums_bis = rand5NumGen1to99()
+    console.log(userNumsPick);
 }
 
-const timerGen = setTimeout(rand5NumGen1to99_bis, 2500);
 
-
-function displayInPage_bis () {
-    displayInPage(randNums_bis)
+function verify(userNum, generated) {
+    for (let i = 0; i < 5; i++) {
+        if (generated.indexOf(userNum[i]) !== -1) {
+            generated[generated.indexOf(userNum[i])] = NaN
+            correctNums.push(userNum[i])
+        }
+    }
+    console.log("The correct numbers are: " + correctNums);
 }
-const timerDisplay = setTimeout(displayInPage_bis, 3000); */
+
+submitBtn.addEventListener("click", function (event) {
+
+    event.preventDefault()
+
+    pushValues()
+
+    console.log(pushValues);
+
+    verify(userNumsPick, randNums)
+
+    numsOn_inputOn()
+
+    for (let i = 0; i < 5; i++) {
+        singleInputs[i].readOnly = true;
+    }
+
+    console.log("You got " + correctNums.length + " numbers right");
+})
