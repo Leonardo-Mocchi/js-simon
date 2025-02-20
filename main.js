@@ -1,17 +1,13 @@
 /* Descrizione:
-Visualizzare in pagina 5 numeri casuali. Da lì parte un timer di 30 secondi. Dopo 30 secondi i numeri scompaiono e appaiono invece 5 input in cui l'utente deve inserire i numeri che ha visto precedentemente, nell'ordine che preferisce.
-Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
-NOTA:
-non è importante l'ordine con cui l'utente inserisce i numeri, basta che ne indovini il più possibile.
-BONUS:
-Inseriamo la validazione: se l'utente mette due numeri uguali o inserisce cose diverse da numeri lo blocchiamo in qualche modo.
-Se l’utente ha inserito qualcosa di non valido, segnaliamolo visivamente nel form.
-Consigli del giorno:
-Pensate prima in italiano, in inglese o nella lingua che preferite.
-Dividete in piccoli problemi la consegna.
-Individuate gli elementi di cui avete bisogno per realizzare il programma.
-Immaginate la logica come fosse uno snack: "Dati 2 array di numeri, indica quali e quanti numeri ci sono in comune tra i due array" */
+Visualizzare in pagina 5 numeri casuali.
+Da lì parte un timer di 30 secondi.
+Dopo 30 secondi i numeri scompaiono e appaiono invece 5 input in cui l'utente deve inserire i numeri che ha visto precedentemente, nell'ordine che preferisce.
+Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati. */
 
+const guideline = document.getElementById("guideline")
+const memorize = document.getElementById("memorize")
+
+id = "memorize"
 
 // funzione che genera 5 numeri diversi (1-99)
 let randNums = rand5NumGen1to99();
@@ -120,8 +116,6 @@ let correctNums = []
 const singleInputs = userInputs.children
 const submitBtn = document.getElementById("submit_guess")
 
-
-
 function pushValues() {
     for (let i = 0; i < 5; i++) {
         userNumsPick.push(Number(singleInputs[i].value))
@@ -151,6 +145,8 @@ submitBtn.addEventListener("click", function (event) {
 
     verify(userNumsPick, randNums)
 
+    memorize.innerText = "These were the correct numbers"
+    guideline.innerText = "These were your choices"
     numsOn_inputOn()
 
     for (let i = 0; i < 5; i++) {
