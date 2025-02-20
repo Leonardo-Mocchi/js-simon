@@ -4,10 +4,6 @@ Da lì parte un timer di 30 secondi.
 Dopo 30 secondi i numeri scompaiono e appaiono invece 5 input in cui l'utente deve inserire i numeri che ha visto precedentemente, nell'ordine che preferisce.
 Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati. */
 
-const guideline = document.getElementById("guideline")
-const memorize = document.getElementById("memorize")
-
-id = "memorize"
 
 // funzione che genera 5 numeri diversi (1-99)
 let randNums = rand5NumGen1to99();
@@ -98,6 +94,8 @@ let display_timer = setTimeout(numsOff_inputOn, 30000);
 
 const userInputs = document.getElementById("user_input")
 const submitDisplay = document.getElementById("button_here")
+const submit = document.getElementById("submit")
+
 
 displayInputs()
 
@@ -105,7 +103,7 @@ function displayInputs() {
     for (let i = 0; i < 5; i++) {
         userInputs.innerHTML += `<input type="number" required>`
     }
-    userInputs.innerHTML += `<button id="submit_guess" type="submit" class="btn btn-dark my-2"> Submit </button>`
+    submit.innerHTML = `<button id="submit_guess" type="submit" class="btn btn-dark my-2"> Submit </button>`
 }
 
 // verifico che siano uguali ai 5 generati
@@ -128,16 +126,34 @@ function pushValues() {
 function verify(userNum, generated) {
     for (let i = 0; i < 5; i++) {
         if (generated.indexOf(userNum[i]) !== -1) {
-            generated[generated.indexOf(userNum[i])] = NaN
+            generated[generated.indexOf(userNum[i])] = [i]
             correctNums.push(userNum[i])
+
+            singleInputs[i].classList.add("bg-danger")
+            singleInputs[i].classList.add("text-light")
+            singleInputs[i].classList.add("order-0")
+        } else {
+            singleInputs[i].classList.add("bg-dark")
+            singleInputs[i].classList.add("text-light")
+            singleInputs[i].classList.add("order-5")
         }
     }
     console.log("The correct numbers are: " + correctNums);
 }
 
+// visual section
+const guideline = document.getElementById("guideline")
+const memorize = document.getElementById("memorize")
+const feedback = document.getElementById("feedback")
+const healthPoints = document.getElementById("health_points")
+
+//event activator
+
 submitBtn.addEventListener("click", function (event) {
 
     event.preventDefault()
+
+    submitBtn.readOnly = true;
 
     pushValues()
 
@@ -145,9 +161,42 @@ submitBtn.addEventListener("click", function (event) {
 
     verify(userNumsPick, randNums)
 
+
+
+    memorize.innerText = ""
+    guideline.innerText = ""
+    numsOn_inputOn()
     memorize.innerText = "These were the correct numbers"
     guideline.innerText = "These were your choices"
-    numsOn_inputOn()
+    healthPoints.innerHTML = `HP bar <span id="hp_total"></span>/5`
+    feedback.innerHTML = `YOU CORRECTLY PICKED <span id="hp_total2"></span> NUMBERS <br><br>`
+
+    const healthPointsTotal = document.getElementById("hp_total")
+    const healthPointsTotal_bis = document.getElementById("hp_total2")
+
+    healthPointsTotal.innerText = correctNums.length
+    healthPointsTotal_bis.innerText = correctNums.length
+
+    if (correctNums.length === 0) {
+        healthPointsTotal.classList.add("text-secondary")
+        healthPointsTotal_bis.classList.add("text-secondary")
+
+        feedback.innerHTML += ' <p class="fs-5 text-secondary"> You just clicked without reading, huh? </p>'
+    } else if (correctNums.length > 0 && correctNums.length <= 2) {
+        healthPointsTotal.classList.add("text-success")
+        healthPointsTotal_bis.classList.add("text-success")
+
+        feedback.innerHTML += '<p class="fs-4 text-success"> Hey at least you understood the assignment <i class="far fa-smile"></i> </p>'
+    } else if (correctNums.length > 2 && correctNums.length <= 4) {
+        healthPointsTotal.classList.add("text-primary")
+        healthPointsTotal_bis.classList.add("text-primary")
+        feedback.innerHTML += '<p class="fs-3 text-primary"> <i class="fa-solid fa-heart"></i> Nice! I see some skill <i class="fa-solid fa-heart"></i></p>'
+    } else if (correctNums.length === 5) {
+        healthPointsTotal.style.color = " #df73ff"
+        healthPointsTotal_bis.style.color = " #df73ff"
+        feedback.innerHTML += '<h1 class="fs-2" style="color: #df73ff;"> <i class="fa-solid fa-hat-wizard"></i> YOU\'RE A WIZARD HARRY! <i class="fa-solid fa-hat-wizard"></i> </h1>'
+    }
+
 
     for (let i = 0; i < 5; i++) {
         singleInputs[i].readOnly = true;

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Simon Says</title>
+    <title>Simon Says Bonus</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -20,7 +20,8 @@
 <body class="bg-dark">
     <section class="m-5">
         <div id="display_timeout">
-            <h1 id="memorize" class="text-bg-dark text-center">Memorize these numbers! <br> You got 30 seconds </h1>
+            <h1 id="memorize" class="text-bg-dark text-center">Memorize these numbers gamer! <br> You got 30 seconds
+            </h1>
 
             <div class="container bg-secondary-subtle bg-gradient">
 
@@ -35,11 +36,15 @@
         <div id="input_timeout">
             <h1 id="guideline" class="text-bg-dark text-center">Insert as many numbers as you remember in any order</h1>
             <div class="container bg-secondary-subtle bg-gradient">
-                <form id="user_input" action=""
-                    class="row row-cols-1 row-cols-sm-5 text-center pt-3 fs-1 mx-5 justify-content-center">
+                <h2 id="health_points" class="pt-2 ps-5"></h2>
+                <form action="">
+                    <div id="user_input"
+                        class="row row-cols-1 row-cols-sm-5 text-center pt-1 fs-1 mx-5 justify-content-center">
+                    </div>
+                    <div id="submit" class="d-flex justify-content-center"></div>
                 </form>
             </div>
-            <h1 id="feedback" class="text-bg-dark text-center"></h1>
+            <h1 id="feedback" class="text-bg-dark text-center mt-5"></h1>
         </div>
     </section>
     <!-- /user inputs -->
