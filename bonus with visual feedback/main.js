@@ -86,7 +86,7 @@ function numsOn_inputOn() {
 
 numsOn_inputOff()
 
-let display_timer = setTimeout(numsOff_inputOn, 30000);
+let display_timer = setTimeout(numsOff_inputOn, 3000);
 
 
 // faccio spuntare 5 input per l'utente
@@ -126,7 +126,6 @@ function pushValues() {
 function verify(userNum, generated) {
     for (let i = 0; i < 5; i++) {
         if (generated.indexOf(userNum[i]) !== -1) {
-            generated[generated.indexOf(userNum[i])] = [i]
             correctNums.push(userNum[i])
 
             singleInputs[i].classList.add("bg-danger")

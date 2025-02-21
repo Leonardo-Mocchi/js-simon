@@ -128,7 +128,6 @@ function pushValues() {
 function verify(userNum, generated) {
     for (let i = 0; i < 5; i++) {
         if (generated.indexOf(userNum[i]) !== -1) {
-            generated[generated.indexOf(userNum[i])] = NaN
             correctNums.push(userNum[i])
         }
     }
